@@ -32,7 +32,7 @@ func BuildChannelHttpRequest(r *http.Request) (request *pb.HTTPRequest, err erro
 	return
 }
 
-func GetHeader(r http.Request) map[string]string {
+func GetHeader(r *http.Request) map[string]string {
 	header := make(map[string]string)
 	for k, v := range r.Header {
 		if len(v) > 0 {
