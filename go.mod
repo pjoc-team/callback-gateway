@@ -1,4 +1,4 @@
-module gitlab.com/pjoc/notify-gateway
+module gitlab.com/pjoc/callback-gateway
 
 require (
 	github.com/gin-contrib/sse v0.0.0-20170109093832-22d885f9ecc7 // indirect
@@ -8,6 +8,7 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	gitlab.com/pjoc/base-service v0.1.4
+	gitlab.com/pjoc/proto v0.1.4
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect
 )

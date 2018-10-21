@@ -1,11 +1,10 @@
 package main
 
 import (
-	"gitlab.com/pjoc/notify-gateway/pkg/notify"
-	"gitlab.com/pjoc/notify-gateway/pkg/service"
+	"gitlab.com/pjoc/callback-gateway/pkg/notify"
 )
 
 func main() {
-	notifyService := &service.NotifyService{}
+	notifyService := &notify.NotifyService{}
 	notify.StartGin(notifyService, 8888)
 }
