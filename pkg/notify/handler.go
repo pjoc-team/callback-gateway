@@ -9,13 +9,13 @@ import (
 
 func StartGin(service *NotifyService, port int) {
 	engine := gin.New()
-	engine.GET("/notify/:gateway_order_id", handleGatewayIdFunc(service)).
-		POST("/notify/:gateway_order_id", handleGatewayIdFunc(service))
+	engine.GET("/notify/:gateway_order_id", handleGatewayOrderIdFunc(service)).
+		POST("/notify/:gateway_order_id", handleGatewayOrderIdFunc(service))
 	listenAddr := fmt.Sprintf(":%d", port)
 	engine.Run(listenAddr)
 }
 
-func handleGatewayIdFunc(service *NotifyService) func(*gin.Context) {
+func handleGatewayOrderIdFunc(service *NotifyService) func(*gin.Context) {
 	return func(context *gin.Context) {
 		gatewayOrderId := context.Param("gateway_order_id")
 		if gatewayOrderId == "" {

@@ -40,6 +40,33 @@ func (svc *NotifyService) Notify(gatewayOrderId string, r *http.Request) (notify
 	} else {
 		existOrder = response.PayOrders[0]
 	}
+
+	// notify
+	notifyResponse, e = svc.ProcessChannel(existOrder)
+	if e != nil {
+		return
+	}
+
+	settlementClient, e := svc.GetSettlementClient()
+	if e != nil {
+		logger.Log.Errorf("Failed to get settlement client! error: %v", e.Error())
+		return
+	}
+
+	settlementRequest := &pb.SettlementPayOrder{Order: existOrder}
+	timeoutSettle, _ := context.WithTimeout(context.TODO(), 10*time.Second)
+
+	settlementResponse, e := settlementClient.ProcessOrderSuccess(timeoutSettle, settlementRequest)
+	if e != nil {
+		logger.Log.Errorf("Failed to settle order: %v error: %v", existOrder, e.Error())
+		return
+	} else {
+		logger.Log.Infof("Notify order with result: %v", settlementResponse)
+	}
+	return
+}
+
+func (svc *NotifyService) ProcessChannel(existOrder *pb.PayOrder) (notifyResponse *pb.NotifyResponse, e error) {
 	channelId := existOrder.BasePayOrder.ChannelId
 	channelAccount := existOrder.BasePayOrder.ChannelAccount
 
@@ -61,7 +88,6 @@ func (svc *NotifyService) Notify(gatewayOrderId string, r *http.Request) (notify
 		logger.Log.Errorf("Failed to notify channel! error: %v", e.Error())
 		return
 	}
-	return
 }
 
 func Init(svc *service.Service) {
