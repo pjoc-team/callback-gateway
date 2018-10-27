@@ -42,7 +42,7 @@ func (svc *NotifyService) Notify(gatewayOrderId string, r *http.Request) (notify
 	}
 
 	// notify
-	notifyResponse, e = svc.ProcessChannel(existOrder)
+	notifyResponse, e = svc.ProcessChannel(existOrder, r)
 	if e != nil {
 		return
 	}
@@ -66,7 +66,7 @@ func (svc *NotifyService) Notify(gatewayOrderId string, r *http.Request) (notify
 	return
 }
 
-func (svc *NotifyService) ProcessChannel(existOrder *pb.PayOrder) (notifyResponse *pb.NotifyResponse, e error) {
+func (svc *NotifyService) ProcessChannel(existOrder *pb.PayOrder, r *http.Request) (notifyResponse *pb.NotifyResponse, e error) {
 	channelId := existOrder.BasePayOrder.ChannelId
 	channelAccount := existOrder.BasePayOrder.ChannelAccount
 
@@ -85,9 +85,12 @@ func (svc *NotifyService) ProcessChannel(existOrder *pb.PayOrder) (notifyRespons
 
 	timeoutChannel, _ := context.WithTimeout(context.TODO(), 10*time.Second)
 	if notifyResponse, e = client.Notify(timeoutChannel, notifyRequest); e != nil {
-		logger.Log.Errorf("Failed to notify channel! error: %v", e.Error())
+		logger.Log.Errorf("Failed to notify channel! order: %v error: %v", existOrder, e.Error())
 		return
+	} else {
+		logger.Log.Infof("Notify to channel: %v with result: %v", channelId, notifyResponse)
 	}
+	return
 }
 
 func Init(svc *service.Service) {

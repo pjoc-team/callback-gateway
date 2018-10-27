@@ -7,10 +7,6 @@ import (
 	"net/http"
 )
 
-func BuildChannelNotifyRequest(r *http.Request){
-
-}
-
 
 func BuildChannelHttpRequest(r *http.Request) (request *pb.HTTPRequest, err error) {
 	var body []byte
