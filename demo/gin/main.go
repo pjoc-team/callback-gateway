@@ -6,5 +6,5 @@ import (
 
 func main() {
 	notifyService := &notify.NotifyService{}
-	notify.StartGin(notifyService, 8888)
+	notify.StartGin(notifyService, ":8888")
 }

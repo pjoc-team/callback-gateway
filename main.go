@@ -35,5 +35,7 @@ func main() {
 		*registerServiceToEtcd,
 		*etcdPeers,
 		serviceDir)
-	notify.Init(svc)
+	notifyService := notify.Init(svc)
+
+	notify.StartGin(notifyService, *listenAddr)
 }

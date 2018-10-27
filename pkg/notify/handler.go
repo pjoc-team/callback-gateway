@@ -1,17 +1,16 @@
 package notify
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"gitlab.com/pjoc/base-service/pkg/logger"
 	"net/http"
 )
 
-func StartGin(service *NotifyService, port int) {
+func StartGin(service *NotifyService, listenAddr string) {
 	engine := gin.New()
 	engine.GET("/notify/:gateway_order_id", handleGatewayOrderIdFunc(service)).
 		POST("/notify/:gateway_order_id", handleGatewayOrderIdFunc(service))
-	listenAddr := fmt.Sprintf(":%d", port)
+	//listenAddr := fmt.Sprintf(":%d", port)
 	engine.Run(listenAddr)
 }
 

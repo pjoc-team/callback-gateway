@@ -93,14 +93,15 @@ func (svc *NotifyService) ProcessChannel(existOrder *pb.PayOrder, r *http.Reques
 	return
 }
 
-func Init(svc *service.Service) {
-	payGatewayService := &NotifyService{}
-	payGatewayService.Service = svc
+func Init(svc *service.Service) *NotifyService {
+	notify := &NotifyService{}
+	notify.Service = svc
 	flag.Parse()
 
 	grpcClientFactory := gc.InitGrpFactory(*svc)
-	payGatewayService.GrpcClientFactory = grpcClientFactory
+	notify.GrpcClientFactory = grpcClientFactory
 
 	gatewayConfig := service.InitGatewayConfig(*svc, ETCD_DIR_ROOT)
-	payGatewayService.GatewayConfig = gatewayConfig
+	notify.GatewayConfig = gatewayConfig
+	return notify
 }
