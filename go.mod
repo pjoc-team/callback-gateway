@@ -7,8 +7,8 @@ require (
 	github.com/mattn/go-isatty v0.0.4 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
-	gitlab.com/pjoc/base-service v0.1.8
-	gitlab.com/pjoc/proto v0.1.9
+	gitlab.com/pjoc/base-service v0.2.25
+	gitlab.com/pjoc/proto v0.2.5
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect
 )

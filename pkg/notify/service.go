@@ -2,7 +2,9 @@ package notify
 
 import (
 	"context"
+	"errors"
 	"flag"
+	"fmt"
 	"gitlab.com/pjoc/base-service/pkg/grpc"
 	gc "gitlab.com/pjoc/base-service/pkg/grpc"
 	"gitlab.com/pjoc/base-service/pkg/logger"
@@ -13,7 +15,7 @@ import (
 	"net/http"
 )
 
-const ETCD_DIR_ROOT = "/pjoc/pub/pay"
+const ETCD_DIR_ROOT = "/pub/pjoc/pay"
 
 type NotifyService struct {
 	*service.Service
@@ -36,11 +38,12 @@ func (svc *NotifyService) Notify(gatewayOrderId string, r *http.Request) (notify
 		return
 	} else if response.PayOrders == nil || len(response.PayOrders) == 0 {
 		logger.Log.Errorf("Not found order! order: %v", gatewayOrderId)
+		e = fmt.Errorf("not found order: %v", gatewayOrderId)
 		return
 	} else {
 		existOrder = response.PayOrders[0]
 	}
-
+	logger.Log.Infof("Processing order notify... order: %v", existOrder)
 	// notify
 	notifyResponse, e = svc.ProcessChannel(existOrder, r)
 	if e != nil {
@@ -50,6 +53,10 @@ func (svc *NotifyService) Notify(gatewayOrderId string, r *http.Request) (notify
 	settlementClient, e := svc.GetSettlementClient()
 	if e != nil {
 		logger.Log.Errorf("Failed to get settlement client! error: %v", e.Error())
+		return
+	} else if settlementClient == nil{
+		logger.Log.Errorf("settlementClient is nil!")
+		e = errors.New("system error")
 		return
 	}
 
@@ -98,10 +105,11 @@ func Init(svc *service.Service) *NotifyService {
 	notify.Service = svc
 	flag.Parse()
 
-	grpcClientFactory := gc.InitGrpFactory(*svc)
+	gatewayConfig := service.InitGatewayConfig(svc.EtcdPeers, ETCD_DIR_ROOT)
+	notify.GatewayConfig = gatewayConfig
+
+	grpcClientFactory := gc.InitGrpFactory(*svc, gatewayConfig)
 	notify.GrpcClientFactory = grpcClientFactory
 
-	gatewayConfig := service.InitGatewayConfig(*svc, ETCD_DIR_ROOT)
-	notify.GatewayConfig = gatewayConfig
 	return notify
 }
