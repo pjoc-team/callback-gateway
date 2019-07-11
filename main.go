@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-	"gitlab.com/pjoc/base-service/pkg/service"
-	"gitlab.com/pjoc/callback-gateway/pkg/notify"
+	"github.com/pjoc-team/base-service/pkg/service"
+	"github.com/pjoc-team/callback-gateway/pkg/notify"
 )
 
 var (

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"gitlab.com/pjoc/callback-gateway/pkg/notify"
+	"github.com/pjoc-team/callback-gateway/pkg/notify"
 )
 
 func main() {

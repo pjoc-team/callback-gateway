@@ -2,11 +2,10 @@ package notify
 
 import (
 	"bytes"
-	"gitlab.com/pjoc/base-service/pkg/logger"
-	pb "gitlab.com/pjoc/proto/go"
+	"github.com/pjoc-team/base-service/pkg/logger"
+	pb "github.com/pjoc-team/pay-proto/go"
 	"net/http"
 )
-
 
 func BuildChannelHttpRequest(r *http.Request) (request *pb.HTTPRequest, err error) {
 	var body []byte

@@ -2,7 +2,7 @@ package notify
 
 import (
 	"github.com/gin-gonic/gin"
-	"gitlab.com/pjoc/base-service/pkg/logger"
+	"github.com/pjoc-team/base-service/pkg/logger"
 	"net/http"
 )
 
