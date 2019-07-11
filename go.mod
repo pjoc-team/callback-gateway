@@ -1,4 +1,4 @@
-module gitlab.com/pjoc/callback-gateway
+module github.com/pjoc-team/callback-gateway
 
 require (
 	github.com/gin-contrib/sse v0.0.0-20170109093832-22d885f9ecc7 // indirect
@@ -7,8 +7,8 @@ require (
 	github.com/mattn/go-isatty v0.0.4 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
-	gitlab.com/pjoc/base-service v0.2.25
-	gitlab.com/pjoc/proto v0.2.5
+	github.com/pjoc-team/base-service v0.2.18
+	github.com/pjoc-team/pay-proto v0.2.7
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect
 )
